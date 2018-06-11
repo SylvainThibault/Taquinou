@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     let tiles = [new Tile('a'),
         new Tile('b'),
@@ -13,10 +13,10 @@ $(document).ready(function(){
         let distanceFromLeft = 0;
         let col, row;
 
-        $('#main').empty();
-
-        $('#main').css('height', (tileSize * size) + "px");
-        $('#main').css('width', (tileSize * size) + "px");
+        $('#main').empty().css({
+            'height': (tileSize * size) + "px",
+            'width': (tileSize * size) + "px"
+        });
 
         for (row = 0; row < size; row++) {
             for (col = 0; col < size; col++) {
@@ -38,6 +38,4 @@ $(document).ready(function(){
         }
 
     }
-
-
 });
