@@ -12,6 +12,8 @@ function createBoard(size) {
     let distanceFromLeft = 0;
     let col, row;
 
+    $('#main').empty();
+
     $('#main').css('height', (tileSize * size) + "px");
     $('#main').css('width', (tileSize * size) + "px");
 
