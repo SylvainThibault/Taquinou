@@ -1,5 +1,7 @@
 class Tile {
-    constructor(text) {
+    constructor(text, isEmpty) {
         this.text = text;
+        this.isEmpty = isEmpty;
+
     }
 }
