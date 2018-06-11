@@ -1,0 +1,24 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    height : 100vh;
+
+}
+
+#main {
+    background-color: aliceblue;
+    position : relative;
+    margin: auto;
+}
+
+.tile {
+    background-color: aqua;
+    border: 1px solid cadetblue;
+    margin: 1px;
+    position : absolute;
+    display: inline-block;
+}
