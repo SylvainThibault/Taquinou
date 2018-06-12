@@ -8,10 +8,12 @@ window.onload = function(){
   }
 
 function permuteWithEmptyTile(tileId) {
+    $('.tile').finish();
     let emptyTileId = board.boardSize * board.boardSize - 1;
     if (board.canMove(tileId)) {
         let direction = board.permute(tileId, emptyTileId);
         slide(tileId, direction, tileSize);
+        setTimeout(function(){}, 500);
     }
 }
 
@@ -70,8 +72,8 @@ function slide(tileId, direction, tileSize) {
     let originalyPosition = $('#' + tileId).css('top');
     xTranslation += +originalxPosition.substr(0, originalxPosition.indexOf('px'));
     yTranslation += +originalyPosition.substr(0, originalyPosition.indexOf('px'));
-    $('#' + tileId).css({
+    $('#' + tileId).animate({
         left: xTranslation + 'px',
         top: yTranslation + 'px'
-    });
+    }, 500);
 }
