@@ -77,3 +77,10 @@ function slide(tileId, direction, tileSize) {
         top: yTranslation + 'px'
     }, 500);
 }
+
+function generateNewBoard(){
+    let newBoardSize = $('#boardSizeInput').val();
+    tileSize = +$('#tileSizeInput').val();
+    board = new Board(tileSize, newBoardSize);
+    display(board);
+}

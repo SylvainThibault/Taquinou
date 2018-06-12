@@ -25,3 +25,6 @@ body {
     font-size: 4em;
     font-family: Arial;
 }
+.full-width {
+    width: 100vw;
+}
