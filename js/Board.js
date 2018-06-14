@@ -3,34 +3,31 @@ class Board {
         this.tilesArray = createTiles(boardSize);
         this.boardSize = boardSize;
         this.tileSize = tileSize;
-
+        this.emptyTilePosition = boardSize*boardSize -1;
     }
-    canMove(tileId){
+    canMove(tilePosition){
 
-        let tileIndexes = this.findTileIndexes(tileId);
+        if (tilePosition >= this.boardSize * this.boardSize || tilePosition < 0) return false;
 
+        let tile = this.getTileByPosition(tilePosition);
 
-        if (tileIndexes.colIndex === -1) {
-            return false;
-        }
-
-        if (tileIndexes.rowIndex < this.boardSize - 1) { // si pas sur le bord du bas
-            if ( this.tilesArray[tileIndexes.rowIndex+1][tileIndexes.colIndex].isEmpty ) {
+        if (tile.row < this.boardSize - 1) { // si pas sur le bord du bas
+            if ( this.tilesArray[tile.row+1][tile.column].isEmpty ) {
                 return true;
             }
         }
-        if (tileIndexes.rowIndex > 0) { // si pas sur le bord du haut
-            if ( this.tilesArray[tileIndexes.rowIndex-1][tileIndexes.colIndex].isEmpty ) {
+        if (tile.row > 0) { // si pas sur le bord du haut
+            if ( this.tilesArray[tile.row-1][tile.column].isEmpty ) {
                 return true;
             }
         }
-        if (tileIndexes.colIndex < this.boardSize - 1) { // si pas sur le bord de droite
-            if ( this.tilesArray[tileIndexes.rowIndex][tileIndexes.colIndex+1].isEmpty ) {
+        if (tile.column < this.boardSize - 1) { // si pas sur le bord de droite
+            if ( this.tilesArray[tile.row][tile.column+1].isEmpty ) {
                 return true;
             }
         }
-        if (tileIndexes.colIndex > 0) { // si pas sur le bord du gauche
-            if ( this.tilesArray[tileIndexes.rowIndex][tileIndexes.colIndex-1].isEmpty ) {
+        if (tile.column > 0) { // si pas sur le bord du gauche
+            if ( this.tilesArray[tile.row][tile.column-1].isEmpty ) {
                 return true;
             }
         }
@@ -38,41 +35,121 @@ class Board {
         return false;
 
     }
+    getTileByPosition(tilePosition) {
+        let row = Math.floor(tilePosition / this.boardSize);
+        let col = tilePosition % this.boardSize;
 
-    findTileIndexes(tileId) {
-        tileId = +tileId;
-        let rowIndex, colIndex;
+        return this.tilesArray[row][col];
+    }
+    positionTile(tile) {
+        this.tilesArray[tile.row][tile.column] = tile;
+    }
+    permute(firstTilePosition, secondTilePosition){
+        let firstTile = this.getTileByPosition(firstTilePosition);
+        let secondTile = this.getTileByPosition(secondTilePosition);
+        let tempPosition = {row: firstTile.row, column: firstTile.column};
+        let direction ="";
 
-        for (let row = 0; row < this.boardSize; row++){
-            colIndex = this.tilesArray[row].findIndex((tile) => {
-                return tile.id == tileId;
-            });
-            if (colIndex != -1) {
-                rowIndex = row;
-                break;
-            }
+        firstTile.setPosition(secondTile.row, secondTile.column);
+        secondTile.setPosition(tempPosition.row, tempPosition.column);
+
+        this.positionTile(firstTile);
+        this.positionTile(secondTile);
+
+        if (firstTile.row === secondTile.row) {
+            direction = (firstTile.column > secondTile.column)? 'toRight': 'toLeft';
+        } else {
+            direction = (firstTile.row > secondTile.row)? 'toBottom': 'toTop';
         }
-        return {rowIndex: rowIndex, colIndex: colIndex};
+        return {tileId: firstTile.id, direction: direction, newTilePosition: firstTile.row * this.boardSize + firstTile.column};
+
+    }
+    permuteWithEmptyTile(tilePosition) {
+        let formerEmptyTilePosition = this.emptyTilePosition;
+        this.emptyTilePosition = tilePosition;
+        return this.permute(tilePosition, formerEmptyTilePosition);
+    }
+    moveEmptyTileOnce(){
+        let tileToMove = {
+            right : 0,
+            top: 1,
+            left : 2,
+            bottom: 3
+        }
+        let tilePosition = +this.emptyTilePosition;
+        let randomSide = Math.floor(4 * Math.random());
+            switch (randomSide) {
+                case tileToMove.right:
+                    tilePosition += 1;
+                    break;
+                case tileToMove.top:
+                    tilePosition -= +this.boardSize;
+                    break;
+                case tileToMove.left:
+                    tilePosition -= 1;
+                    break;
+                case tileToMove.bottom:
+                    tilePosition += +this.boardSize;
+                    break;
+            }
+            if (this.canMove(tilePosition)){
+                this.permuteWithEmptyTile(tilePosition);
+            } else this.moveEmptyTileOnce();
+        }
+    moveEmptyTile(nTimes){
+        nTimes = (nTimes >= 1000000)? 1000000: nTimes;
+        for (let i = 0; i<nTimes; i++){
+            this.moveEmptyTileOnce();
+        }
     }
 
-    permute(firstTileId, secondTileId){
-        let firstTileIndex = this.findTileIndexes(firstTileId);
-        let secondTileIndex = this.findTileIndexes(secondTileId);
-        let temp = this.tilesArray[firstTileIndex.rowIndex][firstTileIndex.colIndex];
-        this.tilesArray[firstTileIndex.rowIndex][firstTileIndex.colIndex] = this.tilesArray[secondTileIndex.rowIndex][secondTileIndex.colIndex];
-        this.tilesArray[secondTileIndex.rowIndex][secondTileIndex.colIndex] = temp;
+    checkWinCondition() {
+        for (let row = 0; row < this.boardSize; row++) {
+            for (let col = 0; col < this.boardSize; col++){
+                if (!this.tilesArray[row][col].isWellPlaced()) return false;
+            }
+        }
+        return true;
+    }
 
-        if (firstTileIndex.rowIndex === secondTileIndex.rowIndex) {
-            if (firstTileIndex.colIndex < secondTileIndex.colIndex) {
-                return 'toRight';
-            } else return 'toLeft';
-        }
-        if (firstTileIndex.rowIndex < secondTileIndex.rowIndex) {
-            return 'toBottom';
-        }
-        return 'toTop';
+    evenParitySylvainStyle(){
+        let parity = 0;
+        // création du tableau des id
+        let mockArray = [];
 
+        for (let row =0; row< this.boardSize; row++){
+            for (let col =0; col< this.boardSize; col++){
+                mockArray[row*this.boardSize + col] = this.tilesArray[row][col].id;
+            }
         }
+        //Boucle de vérification
+        for (let i = 0; i < mockArray.length; i++){
+            //L'id est-il à la bonne place?
+            while (mockArray[i] !== i){
+                //Si non : permuter la valeur actuelle avec celle située à sa place dans le tableau
+                let temp = mockArray[i];
+                mockArray[i] = mockArray[mockArray[i]];
+                mockArray[temp] = temp;
+                parity++;
+            }
+        }
+
+        return ((parity % 2) === 0);
+    }
+
+    emptyTileEvenParity(){
+        let emptyTilePosition = this.emptyTilePosition;
+        let finalPosition = this.boardSize * this.boardSize -1;
+        let result = 0;
+        result += (finalPosition - emptyTilePosition) % this.boardSize;
+        result +=Math.floor((finalPosition - emptyTilePosition) / this.boardSize);
+        console.log(result);
+        return ((result % 2) === 0);
+    }
+
+    solvable(){
+        return this.emptyTileEvenParity() === this.evenParitySylvainStyle();
+    }
 
 }
 
@@ -81,7 +158,7 @@ function createTiles(boardSize) {
     for (let row = 0; row < boardSize; row++) {
         tilesArray[row] = [];
         for (let col = 0; col < boardSize; col++) {
-            tilesArray[row][col] = new Tile(boardSize*row + col,String.fromCharCode(65 + boardSize * row + col), false);
+            tilesArray[row][col] = new Tile(boardSize*row + col,String.fromCharCode(65 + boardSize * row + col), false, boardSize);
         }
     }
 

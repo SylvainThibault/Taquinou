@@ -2,25 +2,22 @@ let tileSize = 100;
 
 let board = new Board(tileSize,4);
 
-window.onload = function(){
+$(document).ready(function(){
     display(board);
+});
 
-  }
-
-function permuteWithEmptyTile(tileId) {
+function permuteWithEmptyTile($tile) {
     $('.tile').finish();
-    let emptyTileId = board.boardSize * board.boardSize - 1;
-    if (board.canMove(tileId)) {
-        let direction = board.permute(tileId, emptyTileId);
-        slide(tileId, direction, tileSize);
+    let tilePosition = $tile.attr('id');
+    if (board.canMove(tilePosition)) {
+        let permutationResult = board.permuteWithEmptyTile(tilePosition);
+        slide(tilePosition, permutationResult.direction, tileSize);
+        $tile.attr('id',permutationResult.newTilePosition);
         setTimeout(function(){}, 500);
     }
 }
 
 function display(board){
-    let distanceFromTop = 0;
-    let distanceFromLeft = 0;
-    let col, row;
 
     $('#main').empty().css({
         'height': (board.tileSize * board.boardSize) + "px",
@@ -29,25 +26,27 @@ function display(board){
 
     for (row = 0; row < board.boardSize; row++) {
         for (col = 0; col < board.boardSize; col++) {
-            let currentId = board.tilesArray[row][col].id;
-            if(!board.tilesArray[row][col].isEmpty){
+            let currentTile = board.tilesArray[row][col];
+            let tilePosition = currentTile.row* board.boardSize + currentTile.column;
+            if(!currentTile.isEmpty){
             $('#main').append(
-                "<div class=\"tile\" id=" + currentId + " onclick=\"permuteWithEmptyTile(" +
-                + currentId + ")\"> " + board.tilesArray[row][col].text + "</div>"
+                "<div class=\"tile\" id=" + tilePosition + "> " + currentTile.text + "</div>"
         );
-            $('#' + currentId).css({
-                'top': distanceFromTop + "px",
-                'left': distanceFromLeft + "px",
+            $('#' + tilePosition).css({
+                'top': currentTile.row * board.tileSize + "px",
+                'left': currentTile.column * board.tileSize + "px",
                 'height': board.tileSize + "px",
                 'width': board.tileSize + "px"
-            });
-
+                });
             }
-            distanceFromLeft += board.tileSize;
         }
-        distanceFromLeft = 0;
-        distanceFromTop += board.tileSize;
+        displayWinOrLose();
     }
+
+    $('.tile').click(function () {
+        permuteWithEmptyTile($(this));
+        displayWinOrLose();
+    });
 }
 
 function slide(tileId, direction, tileSize) {
@@ -82,5 +81,35 @@ function generateNewBoard(){
     let newBoardSize = $('#boardSizeInput').val();
     tileSize = +$('#tileSizeInput').val();
     board = new Board(tileSize, newBoardSize);
+    display(board);
+}
+
+function moveEmptyTile(){
+    let n = $('#moveNumber').val();
+    board.moveEmptyTile(n);
+    display(board);
+}
+
+function displayWinOrLose(){
+    if (board.checkWinCondition()){
+        $('#status').text("RESOLVED");
+        $('#status').css('color', 'green');
+    } else {
+        $('#status').text("UNRESOLVED");
+        $('#status').css('color', 'red');
+    }
+}
+
+function checkBoardSolvable(){
+    if (board.solvable()){
+        alert("t'as cru j'allais t'entuber? sale noob");
+    } else {
+        alert("bien joué p'tit malin, y'a pas de solution! MOUHAHAHA");
+    }
+}
+
+function samLoydStupidConfiguration() {
+    board = new Board(100,4);
+    board.permute(13,14);
     display(board);
 }

@@ -16,9 +16,14 @@
 </div>
     <br>
 <div>
-        <input type="number" id="boardSizeInput" value="4">
-        <input type="number" id="tileSizeInput" value="100">
+        <div>Board Size <input type="number" id="boardSizeInput" value="4"></div>
+        <div>Tile Size <input type="number" id="tileSizeInput" value="100"></div>
         <button onclick="generateNewBoard()">New board</button>
+        <div>Number of moves <input type="number" id="moveNumber"></div>
+        <button onclick="moveEmptyTile()">Legal Randomize</button>
+        <button onclick="checkBoardSolvable()">Me suis-je fait carotte?</button>
+        <button onclick="samLoydStupidConfiguration()">Sam Loyd's stupidly unsolvable 15-puzzle configuration</button>
+        <div id="status"></div>
 </div>
 </body>
 </html>
