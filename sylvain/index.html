@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Taquinou</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+<body>
+<div id="menu">
+    <table>
+        <tr>
+            <td>Board size :</td>
+            <td><input id="boardSize" type="text"></td>
+            <td>Number of Shuffles :</td>
+            <td><input id="nbOfShuffles" type="text"></td>
+            <td>Taquinou complete : </td>
+            <td id="taquinouComplete">COMPLETE!</td>
+        </tr>
+        <tr>
+            <td>Tile size :</td>
+            <td><input id="tileSize" type="text"></td>
+            <td></td>
+            <td><button id="shuffleBoard">Shuffle</button></td>
+        </tr>
+        <tr>
+            <td><button id="newBoard">New Board</button></td>
+            <td><button id="refreshBoard">Refresh Board</button></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<div id="main">
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/Tile.js"></script>
+<script src="js/Board.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
