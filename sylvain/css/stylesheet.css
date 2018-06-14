@@ -1,0 +1,41 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    height : 100vh;
+
+}
+
+#main {
+    background-color: aliceblue;
+    position : relative;
+    margin: auto;
+}
+
+#menu {
+    height : 100px;
+    width: auto;
+    position: fixed;
+    top :0;
+}
+
+.tile {
+    border: 1px solid #ff6f6b;
+    position : absolute;
+    display: inline-block;
+}
+
+.tile div {
+    background-color: #7c7c7e;
+    height : 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.tile div h1 {
+    width: 100%;
+}
