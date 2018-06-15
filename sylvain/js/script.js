@@ -1,11 +1,11 @@
-let board = new Board(100,4);
+let board = new Board(100,3);
 
 $(document).ready(function() {
     displayBoard();
     refreshBoard();
     newBoard();
     shuffleBoard();
-
+    randomizeBoard();
 });
 
 function moveTile(tile, direction, board){
@@ -46,9 +46,9 @@ function displayBoard() {
 
     for (row = 0; row < board.boardSize; row++) {
         for (col = 0; col < board.boardSize; col++) {
-            let tileNumber = board.boardSize * row + col;
+            let tileNumber = board.tilesArray[row][col].id ;
             $('#main').append(
-                "<div class=\"tile\" id=" + tileNumber + "><div><h1>" + board.tilesArray[row][col].text + "</h1></div></div>"
+                "<div class=\"tile\" id=\"" + tileNumber + "\">" + board.tilesArray[row][col].text + "</div>"
             );
             $('#' + tileNumber).css({
                 'top': distanceFromTop + "px",
@@ -66,6 +66,8 @@ function displayBoard() {
     }
 
     onTileClick(board);
+    parityDisplay();
+    taquinouComplete();
 }
 
 function onTileClick() {
@@ -80,7 +82,7 @@ function onTileClick() {
 function refreshBoard() {
     $('#refreshBoard').click(function () {
         board = new Board(board.tileSize , board.boardSize);
-        displayBoard(board);
+        displayBoard();
     });
 }
 
@@ -89,15 +91,23 @@ function newBoard(){
         let boardSize = +$("#boardSize").val();
         let tileSize = +$("#tileSize").val();
         board = new Board(tileSize, boardSize);
-        displayBoard(board);
+        displayBoard();
     });
 }
 
 function shuffleBoard(){
     $('#shuffleBoard').click(function() {
         let nbOfShuffles = $('#nbOfShuffles').val();
-        board.shuffle(nbOfShuffles);
-        displayBoard(board);
+        board.tileShuffle(nbOfShuffles);
+        displayBoard();
+        taquinouComplete();
+    })
+}
+
+function randomizeBoard(){
+    $('#randomizeBoard').click(function() {
+        board.randomizeBoard();
+        displayBoard();
     })
 }
 
@@ -105,5 +115,28 @@ function taquinouComplete(){
     $("#taquinouComplete").text("INCOMPLETE").css('color' , 'red');
     if(board.win()){
         $("#taquinouComplete").text("COMPLETE!!").css('color' , 'green');
+    }
+}
+
+function parityDisplay(){
+    if(board.checkEmptyTileParity()){
+        $("#emptyParity").text("Even");
+    } else {
+        $("#emptyParity").text("Odd");
+    }
+    if(board.checkSolutionParityBibiStyle()){
+        $("#solutionParity").text("Even");
+    } else {
+        $("#solutionParity").text("Odd");
+    }
+    if(board.checkSolutionParityBibiStyle() === board.checkEmptyTileParity()){
+        $("#solvability").text("Pössible").css('color','green');
+    } else {
+        $("#solvability").text("Impössible").css('color','red');
+    }
+    if(board.checkSolutionParityWithSelectionSort() === board.checkEmptyTileParity()){
+        $("#selectionSort").text("Pössible").css('color','green');
+    } else {
+        $("#selectionSort").text("Impössible").css('color','red');
     }
 }

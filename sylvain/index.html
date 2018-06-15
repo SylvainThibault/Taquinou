@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Taquinou</title>
     <link rel="stylesheet" href="css/stylesheet.css">
+
 </head>
 <body>
 <div id="menu">
@@ -11,22 +12,48 @@
         <tr>
             <td>Board size :</td>
             <td><input id="boardSize" type="text"></td>
-            <td>Number of Shuffles :</td>
-            <td><input id="nbOfShuffles" type="text"></td>
-            <td>Taquinou complete : </td>
-            <td id="taquinouComplete">COMPLETE!</td>
         </tr>
         <tr>
             <td>Tile size :</td>
             <td><input id="tileSize" type="text"></td>
-            <td></td>
-            <td><button id="shuffleBoard">Shuffle</button></td>
         </tr>
         <tr>
-            <td><button id="newBoard">New Board</button></td>
-            <td><button id="refreshBoard">Refresh Board</button></td>
             <td></td>
+            <td>
+                <button id="newBoard">New Board</button>
+                <button id="refreshBoard">Refresh Board</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Number of Shuffles :</td>
+            <td><input id="nbOfShuffles" type="text"></td>
+        </tr>
+        <tr>
             <td></td>
+            <td>
+                <button id="shuffleBoard">Shuffle</button>
+                <button id="randomizeBoard">Randomize</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Taquinou complete :</td>
+            <td id="taquinouComplete">COMPLETE!</td>
+        </tr>
+        <tr>
+            <td>Empty Tile Parity :</td>
+            <td id="emptyParity"></td>
+        </tr>
+        <tr>
+            <td>Solution Parity :</td>
+            <td id="solutionParity"></td>
+        </tr>
+        <tr>
+            <td>Bibi Sort :</td>
+            <td id="solvability"></td>
+        </tr>
+        <tr>
+            <td>Selection Sort :</td>
+            <td id="selectionSort"></td>
         </tr>
     </table>
 </div>

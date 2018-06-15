@@ -3,39 +3,34 @@
 }
 
 body {
+    font-family: "Trebuchet MS", Sans-serif;
     display: flex;
     align-items: center;
-    height : 100vh;
-
+    height: 100vh;
 }
 
 #main {
-    background-color: aliceblue;
-    position : relative;
+    border: 1px solid #434344;
+    background-color: #e15d60;
+    position: relative;
     margin: auto;
 }
 
 #menu {
-    height : 100px;
+    height: 100vh;
     width: auto;
     position: fixed;
-    top :0;
+    top: 0;
+    border: #434344 solid 1px;
+}
+
+table {
+    border-spacing : 20px;
 }
 
 .tile {
-    border: 1px solid #ff6f6b;
-    position : absolute;
-    display: inline-block;
-}
-
-.tile div {
+    border: 1px solid #434344;
     background-color: #7c7c7e;
-    height : 100%;
-    display: flex;
-    align-items: center;
-    text-align: center;
-}
-
-.tile div h1 {
-    width: 100%;
+    position: absolute;
+    display: inline-block;
 }
