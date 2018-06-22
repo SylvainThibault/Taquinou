@@ -35,15 +35,18 @@ class Board {
         return false;
 
     }
+
     getTileByPosition(tilePosition) {
         let row = Math.floor(tilePosition / this.boardSize);
         let col = tilePosition % this.boardSize;
 
         return this.tilesArray[row][col];
     }
+
     positionTile(tile) {
         this.tilesArray[tile.row][tile.column] = tile;
     }
+
     permute(firstTilePosition, secondTilePosition){
         let firstTile = this.getTileByPosition(firstTilePosition);
         let secondTile = this.getTileByPosition(secondTilePosition);
