@@ -13,7 +13,6 @@ function permuteWithEmptyTile($tile) {
         let permutationResult = board.permuteWithEmptyTile(tilePosition);
         slide(tilePosition, permutationResult.direction, tileSize);
         $tile.attr('id',permutationResult.newTilePosition);
-        setTimeout(function(){}, 500);
     }
 }
 
@@ -30,7 +29,7 @@ function display(board){
             let tilePosition = currentTile.row* board.boardSize + currentTile.column;
             if(!currentTile.isEmpty){
             $('#main').append(
-                "<div class=\"tile\" id=" + tilePosition + "> " + currentTile.text + "</div>"
+                "<div class=\"tile\" id=" + tilePosition + " data-text=" + currentTile.text + "> " + currentTile.text + "</div>"
         );
             $('#' + tilePosition).css({
                 'top': currentTile.row * board.tileSize + "px",
@@ -112,4 +111,25 @@ function samLoydStupidConfiguration() {
     board = new Board(100,4);
     board.permute(13,14);
     display(board);
+}
+
+function autoSolveDFS() {
+    let moves = searchSolution(board, 20);
+    console.log(moves);
+    if (moves !== 'not found') {
+        moves.forEach(function(move, index){
+            setTimeout(function(){
+            $('.tile[data-text='+ move +']').trigger('click')
+            }, 500*index);
+        });
+    } else {
+        alert('Madame Scarlet, il fait trop chaud pour travailler');
+    }
+}
+function autoSolveBFS() {
+    let moves = BFS(BFSinitGoalReturnState(board), 10);
+    $('#bfs-solution').text(moves.toString());
+    if (moves === 'not found') {
+        alert('Madame Scarlet, il fait trop chaud pour travailler');
+    }
 }

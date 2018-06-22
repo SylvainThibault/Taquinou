@@ -8,6 +8,8 @@
     <script src="js/Tile.js"></script>
     <script src="js/Board.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/resolutions.js"></script>
+    <script src="js/BFS.js"></script>
 </head>
 <body>
 <div class="full-width">
@@ -16,14 +18,19 @@
 </div>
     <br>
 <div>
-        <div>Board Size <input type="number" id="boardSizeInput" value="4"></div>
-        <div>Tile Size <input type="number" id="tileSizeInput" value="100"></div>
-        <button onclick="generateNewBoard()">New board</button>
-        <div>Number of moves <input type="number" id="moveNumber"></div>
-        <button onclick="moveEmptyTile()">Legal Randomize</button>
-        <button onclick="checkBoardSolvable()">Me suis-je fait carotte?</button>
-        <button onclick="samLoydStupidConfiguration()">Sam Loyd's stupidly unsolvable 15-puzzle configuration</button>
-        <div id="status"></div>
+    <div>Board Size <input type="number" id="boardSizeInput" value="4"></div>
+    <div>Tile Size <input type="number" id="tileSizeInput" value="100"></div>
+    <button onclick="generateNewBoard()">New board</button>
+    <div>Number of moves <input type="number" id="moveNumber"></div>
+    <button onclick="moveEmptyTile()">Legal Randomize</button>
+    <button onclick="checkBoardSolvable()">Me suis-je fait carotte?</button>
+    <button onclick="samLoydStupidConfiguration()">Sam Loyd's stupidly unsolvable 15-puzzle configuration</button>
+    <button onclick="autoSolveDFS()">AutoSolve DFS Style</button>
+    <button onclick="autoSolveBFS()">AutoSolve BFS Style</button>
+    <div id="status"></div>
+    <div>
+        BFS Solution: <span id="bfs-solution"></span>
+    </div>
 </div>
 </body>
 </html>

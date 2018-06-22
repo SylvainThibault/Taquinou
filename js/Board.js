@@ -138,17 +138,17 @@ class Board {
     }
 
     emptyTileEvenParity(){
-        let emptyTilePosition = this.emptyTilePosition;
-        let finalPosition = this.boardSize * this.boardSize -1;
-        let result = 0;
-        result += (finalPosition - emptyTilePosition) % this.boardSize;
-        result +=Math.floor((finalPosition - emptyTilePosition) / this.boardSize);
-        console.log(result);
-        return ((result % 2) === 0);
+        let emptyTile = this.getTileByPosition(this.emptyTilePosition);
+        let parity = (this.boardSize + emptyTile.row - 1) + (this.boardSize + emptyTile.column - 1);
+        return (parity %2) === 0;
     }
 
     solvable(){
         return this.emptyTileEvenParity() === this.evenParitySylvainStyle();
+    }
+
+    getEmptyTile(){
+        return this.getTileByPosition(this.emptyTilePosition);
     }
 
 }
@@ -166,4 +166,3 @@ function createTiles(boardSize) {
     tilesArray[boardSize - 1][boardSize - 1].isEmpty=true;
     return tilesArray;
 }
-
